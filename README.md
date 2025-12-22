@@ -5,7 +5,7 @@
 ![DIY](https://img.shields.io/badge/%F0%9F%9B%A0%20DIY-DIY?color=purple)
 [![license](https://img.shields.io/github/license/hperchec/esp32-rf433-sniffer)](https://github.com/hperchec/esp32-rf433-sniffer/blob/main/LICENSE)
 
-## Introduction
+## 🍵 Introduction
 
 This is a DIY project to play and learn how 433MHz signals and related protocols work. For example,
 you can read a signal from your remote to replicate or clone it...
@@ -107,7 +107,21 @@ Then, in the **Terminal** section:
 
 Enjoy! 😉
 
-## Credits
+## 🤝 Contribute
+
+You would like to contribute to this project? You are welcome!
+
+Feel free to contact me, open a PR or issue...
+
+## 👑 Author
+
+Made with ❤ by [Hervé Perchec](https://github.com/hperchec)
+
+## ⚖️ License
+
+[AGPL-3.0](./LICENSE)
+
+## 🏆 Credits
 
 Thanks to:
 
