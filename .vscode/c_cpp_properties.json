@@ -1,0 +1,28 @@
+{
+  "configurations": [
+    {
+      "name": "Arduino-ESP32",
+      "includePath": [
+        "${workspaceFolder}/software/ESP32-RF433-Sniffer/**",
+        "${userHome}/AppData/Local/Arduino15/packages/esp32/hardware/esp32/**"
+      ],
+      "browse": {
+        "path": [
+          "${userHome}/AppData/Local/Arduino15/packages/esp32/hardware/esp32/3.3.4"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "windowsSdkVersion": "10.0.19041.0",
+      "compilerPath": "cl.exe",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "windows-msvc-x64"
+    }
+  ],
+  "version": 4
+}

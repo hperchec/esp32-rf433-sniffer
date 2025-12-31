@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "medo64.render-crlf",
+    "redhat.vscode-yaml",
+    "github.vscode-github-actions",
+    "eamodio.gitlens",
+    "ms-vscode.cpptools",
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.cpptools-themes",
+    "christian-kohler.npm-intellisense",
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "bradlc.vscode-tailwindcss"
+  ]
+}
