@@ -47,6 +47,9 @@ jobs:
         run: npm ci # or pnpm install / yarn install / bun install
       - name: Build with Vite
         run: npm run build
+        env:
+          # Required envrionment variable to resolve baseUrl
+          VITE_BASE_URL: /${{ github.event.repository.name }}/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
