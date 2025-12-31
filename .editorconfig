@@ -1,0 +1,33 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+
+[*.{c++,cc,cpp,cxx,h,h++,hh,hpp,hxx,inl,ipp,tlh,tli,ino}]
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{html,css}]
+indent_size = 2
+insert_final_newline = true
+
+[*.{js,mjs,cjs,ts,mts,cts,vue}]
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+indent_size = 2
+trim_trailing_whitespace = false
+
+[*.{json,jsonc}]
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{yml,yaml}]
+indent_size = 2
+insert_final_newline = true
