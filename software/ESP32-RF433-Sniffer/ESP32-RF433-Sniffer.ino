@@ -13,17 +13,13 @@
 
 // Create a RCSwitch instance
 RCSwitch rcSwitch = RCSwitch();
-// Utils for RCSwitch data, see below
-static const char* bin2tristate(const char* bin);
-static char * dec2binWzerofill(unsigned long Dec, unsigned int bitLength);
 
-// Create instance protocol 2 data
-Prot2Data p2Data;
+// Create instance type 2 data
+Type2Data p2Data;
 
-// 0: NONE
-// 1: Protocol 1
-// 2: Protocol 2
-int currentProtocol = 0;
+// Init mode and type
+Mode currentMode = NONE_MODE;
+Type currentType = NONE_TYPE;
 
 /**
  * Setup function
@@ -31,14 +27,14 @@ int currentProtocol = 0;
  */
 void setup () {
   // Set baudrate for serial connection
-  Serial.begin(115200);
+  Serial.begin(SERIAL_BAUDRATE);
   // Reduce serial timeout for Serial.readStringUntil method (default is 1000)
   Serial.setTimeout(100);
   // Arbitrary delay for PuTTY like tools
   delay(1000);
 
   printHeader();
-  printHelp();
+  printMenu();
   printPromptPrefix();
 }
 
@@ -50,19 +46,19 @@ void loop () {
   // Handle user command
   handleSerialCommands();
 
-  // Protocol 1 data available
-  if (currentProtocol == 1 && rcSwitch.available()) {
+  // Type 1 data available
+  if (currentType == OLD_STYLE && rcSwitch.available()) {
     // Show data
-    logProt1Data();
+    logType1Data();
 
     printPromptPrefix();
     rcSwitch.resetAvailable();
   }
 
-  // Protocol 2 data available
-  if (currentProtocol == 2 && p2Data.available) {
+  // Type 2 data available
+  if (currentType == NEW_STYLE && p2Data.available) {
     // Show data
-    logProt2Data();
+    logType2Data();
 
     printPromptPrefix();
     // Always clear data
@@ -81,44 +77,99 @@ void printHeader () {
 }
 
 /**
- * Print the help
+ * Print the corresponding menu based on currentMode and currentType
  */
-void printHelp () {
-  Serial.println(F("----------------------------------------"));
-  Serial.println(F("COMMANDS (case insensitive):"));
-  Serial.println(F("  1     : Protocol 1 (RCSwitch)"));
-  Serial.println(F("  2     : Protocol 2 (NewRemoteSwitch)"));
-  Serial.println(F("  stop  : Stop listening"));
+void printMenu () {
+  // No type selected
+  if (currentType == NONE_TYPE) {
+    // No mode selected
+    if (currentMode == NONE_MODE) {
+      printMainMenu();
+    } else {
+      printTypeMenu();
+    }
+  } else {
+    if (currentMode == RECEIVE_MODE) {
+      // ...
+    } else {
+      // ...
+    }
+  }
+}
+
+/**
+ * Print the main menu (choose mode)
+ */
+void printMainMenu () {
+  Serial.println(F("--------------SELECT-MODE---------------"));
+  Serial.println(F("Commands (case insensitive):"));
+  Serial.println(F("  R     : Receiver mode (listening)"));
+  Serial.println(F("  T     : Transmitter mode (emitting)"));
   Serial.println(F("  ?     : Show this help"));
   Serial.println(F("----------------------------------------"));
 }
 
 /**
- * Print prompt prefix "[Protocol X] >"
+ * Print the type menu (choose type)
  */
-void printPromptPrefix () {
-  Serial.print(F("["));
-  
-  if (currentProtocol != 0) {
-    Serial.print(F("Protocol "));
-    Serial.print(currentProtocol);
+void printTypeMenu () {
+  if (currentMode == RECEIVE_MODE) {
+    Serial.println(F("--------------RECEIVE-TYPE--------------"));
   } else {
-    Serial.print(F("NONE"));
+    Serial.println(F("-------------TRANSMIT-TYPE--------------"));
   }
-  
-  Serial.print(F("] > "));
+  Serial.println(F("Commands (case insensitive):"));
+  Serial.println(F("  1         : Type 1 (RCSwitch)"));
+  Serial.println(F("  2         : Type 2 (NewRemoteSwitch)"));
+  Serial.println(F("  Q / QUIT  : Back to previous menu"));
+  Serial.println(F("  ?         : Show this help"));
+  Serial.println(F("----------------------------------------"));
 }
 
 /**
- * Stop all "listeners"
+ * Print prompt prefix "> "
  */
-void stopAll () {
-  if (currentProtocol == 1) {
-    rcSwitch.disableReceive();
-  } else if (currentProtocol == 2) {
-    NewRemoteReceiver::deinit();
+void printPromptPrefix () {
+  Serial.print(F("> "));
+}
+
+/**
+ * Stop current receiver or transmitter and back to previous menu
+ */
+void stopAndBack () {
+  switch (currentMode) {
+    case NONE_MODE:
+      // Nothing...
+      break;
+    case RECEIVE_MODE:
+      // No type selected? back to main menu
+      if (currentType == NONE_TYPE) {
+        currentMode = NONE_MODE;
+      } else {
+        if (currentType == OLD_STYLE) {
+          rcSwitch.disableReceive();
+        } else if (currentType == NEW_STYLE) {
+          NewRemoteReceiver::deinit();
+        }
+        Serial.println(F("Receiver stopped"));
+        currentType = NONE_TYPE;
+      }
+      break;
+    case TRANSMIT_MODE:
+      // No type selected? back to main menu
+      if (currentType == NONE_TYPE) {
+        currentMode = NONE_MODE;
+      } else {
+        if (currentType == OLD_STYLE) {
+          // ... stop transmitter
+        } else if (currentType == NEW_STYLE) {
+          // ... stop transmitter
+        }
+        Serial.println(F("Transmitter stopped"));
+        currentType = NONE_TYPE;
+      }
+      break;
   }
-  currentProtocol = 0;
 }
 
 /**
@@ -126,10 +177,10 @@ void stopAll () {
  */
 void handleSerialCommands () {
   if (Serial.available() > 0) {
-    // 1. Lire toute la ligne jusqu'au caractère de fin de ligne
+    // Read entire line
     String input = Serial.readStringUntil('\n');
-    
-    // 2. Nettoyer la commande (enlever les \r, les espaces et mettre en majuscules)
+
+    // Clean entry and force uppercase
     input.trim();
     input.toUpperCase();
 
@@ -139,24 +190,88 @@ void handleSerialCommands () {
       return;
     }
 
-    if (input == "1") {
-      stopAll();
-      rcSwitch.enableReceive(digitalPinToInterrupt(RX_PIN));
-      currentProtocol = 1;
-    } else if (input == "2") {
-      stopAll();
-      NewRemoteReceiver::init(RX_PIN, 2, nrsInitCallback);
-      currentProtocol = 2;
-    } else if (input == "STOP") {
-      stopAll();
-      Serial.println(F("Listening stopped"));
-    } else if (input == "?") {
-      printHelp();
-    } else {
-      Serial.println(F("Unknown command. Enter '?' to show help."));
+    // Stop/quit command
+    if (input == "Q" || input == "QUIT") {
+      stopAndBack();
+      printMenu();
+      printPromptPrefix();
+      return;
+    } else if (input == "?") { // Help command
+      printMenu();
+      printPromptPrefix();
+      return;
     }
+
+    // No type selected
+    if (currentType == NONE_TYPE) {
+      // No mode selected
+      if (currentMode == NONE_MODE) {
+        handleModeCommand(input);
+      } else {
+        handleTypeCommand(input);
+      }
+    } else {
+      if (currentMode == RECEIVE_MODE) {
+        // ...
+      } else {
+        // ...
+      }
+    }
+
     printPromptPrefix();
   }
+}
+
+/**
+ * Handle serial commands for main menu
+ */
+void handleModeCommand (String input) {
+  if (input == "R") {
+    currentMode = RECEIVE_MODE;
+  } else if (input == "T") {
+    currentMode = TRANSMIT_MODE;
+  } else {
+    Serial.print(F("ERROR: Unknown mode: ")); Serial.println(input);
+  }
+  printMenu();
+}
+
+/**
+ * Handle serial commands for type menu
+ */
+void handleTypeCommand (String input) {
+  bool unknownCmd = false;
+  if (input == "1") {
+    currentType = OLD_STYLE;
+  } else if (input == "2") {
+    currentType = NEW_STYLE;
+  } else {
+    unknownCmd = true;
+  }
+
+  if (unknownCmd) {
+    Serial.print(F("ERROR: Unknown command: ")); Serial.println(input);
+  } else {
+    if (currentMode == RECEIVE_MODE) {
+      startReceiveMode();
+    } else {
+      // ... startTransmitMode();
+    }
+  }
+
+  printMenu();
+}
+
+/**
+ * Start the receiver based on currentType
+ */
+void startReceiveMode () {
+  if (currentType == OLD_STYLE) {
+    rcSwitch.enableReceive(digitalPinToInterrupt(RX_PIN));
+  } else {
+    NewRemoteReceiver::init(RX_PIN, 2, nrsInitCallback);
+  }
+  Serial.println(F("Listening..."));
 }
 
 /**
@@ -176,59 +291,9 @@ void nrsInitCallback (unsigned int period, unsigned long address, unsigned long 
 }
 
 /**
- * Convert binary to tristate.
- * See https://github.com/sui77/rc-switch/blob/master/examples/ReceiveDemo_Advanced/output.ino
+ * Log the available data for type 1
  */
-static const char* bin2tristate(const char* bin) {
-  static char returnValue[50];
-  int pos = 0;
-  int pos2 = 0;
-  while (bin[pos]!='\0' && bin[pos+1]!='\0') {
-    if (bin[pos]=='0' && bin[pos+1]=='0') {
-      returnValue[pos2] = '0';
-    } else if (bin[pos]=='1' && bin[pos+1]=='1') {
-      returnValue[pos2] = '1';
-    } else if (bin[pos]=='0' && bin[pos+1]=='1') {
-      returnValue[pos2] = 'F';
-    } else {
-      return "not applicable";
-    }
-    pos = pos+2;
-    pos2++;
-  }
-  returnValue[pos2] = '\0';
-  return returnValue;
-}
-
-/**
- * Convert decimal to binary with zero fill.
- * See https://github.com/sui77/rc-switch/blob/master/examples/ReceiveDemo_Advanced/output.ino
- */
-static char * dec2binWzerofill(unsigned long Dec, unsigned int bitLength) {
-  static char bin[64]; 
-  unsigned int i=0;
-
-  while (Dec > 0) {
-    bin[32+i++] = ((Dec & 1) > 0) ? '1' : '0';
-    Dec = Dec >> 1;
-  }
-
-  for (unsigned int j = 0; j< bitLength; j++) {
-    if (j >= bitLength - i) {
-      bin[j] = bin[ 31 + i - (j - (bitLength - i)) ];
-    } else {
-      bin[j] = '0';
-    }
-  }
-  bin[bitLength] = '\0';
-  
-  return bin;
-}
-
-/**
- * Log the available data for protocol 1
- */
-void logProt1Data () {
+void logType1Data () {
   const unsigned long decimal = rcSwitch.getReceivedValue();
   const unsigned int length = rcSwitch.getReceivedBitlength();
   const unsigned int delay = rcSwitch.getReceivedDelay();
@@ -253,9 +318,9 @@ void logProt1Data () {
 }
 
 /**
- * Log the available data for protocol 2
+ * Log the available data for type 2
  */
-void logProt2Data () {
+void logType2Data () {
   Serial.println(F("\r\n------------ DECODED SIGNAL ------------"));
   Serial.print(F("ID       : ")); Serial.println(p2Data.address);
   Serial.print(F("Period   : ")); Serial.print(p2Data.period); Serial.println(F(" microseconds"));
