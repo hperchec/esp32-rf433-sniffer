@@ -1,0 +1,5 @@
+# Vendor folder
+node_modules
+
+# Distribution files
+dist

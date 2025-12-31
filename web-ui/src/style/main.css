@@ -1,0 +1,136 @@
+/**
+ * Fonts
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+/**
+ * TailwindCSS
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply w-full;
+    @apply min-h-dvh;
+  }
+
+  h1 {
+    @apply h1;
+  }
+
+  h2 {
+    @apply h2;
+  }
+
+  h3 {
+    @apply h3;
+  }
+
+  h4 {
+    @apply h4;
+  }
+
+  h5 {
+    @apply h5;
+  }
+
+  a {
+    @apply text-teal-700;
+  }
+
+  a:hover {
+    @apply text-teal-600;
+  }
+
+  b {
+    font-weight: bold;
+  }
+
+  code {
+    @apply py-0.5 px-1;
+    @apply bg-gray-100;
+    @apply rounded-sm;
+  }
+
+  p {
+    @apply mb-4;
+  }
+}
+
+@layer components {
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5 {
+    @apply mb-4;
+  }
+
+  .h1 {
+    @apply text-4xl;
+  }
+
+  .h2 {
+    @apply text-3xl;
+  }
+
+  .h3 {
+    @apply text-2xl;
+  }
+
+  .h4 {
+    @apply text-xl;
+  }
+
+  .h5 {
+    @apply text-lg;
+  }
+
+  .btn {
+    @apply px-2 py-0.5;
+    @apply rounded;
+    @apply border;
+    @apply transition duration-200 ease-in-out;
+    @apply focus:outline-none;
+    @apply disabled:pointer-events-none disabled:text-muted;
+  }
+
+  .btn-default {
+    @apply bg-gray-100;
+    @apply border-gray-200;
+    @apply focus:border-teal-700 focus:shadow;
+    @apply hover:border-teal-700 hover:shadow;
+  }
+
+  .btn-primary {
+    @apply bg-teal-700;
+    @apply border-teal-700;
+    @apply text-white;
+    @apply focus:bg-teal-600 focus:border-teal-600 focus:shadow;
+    @apply hover:bg-teal-600 hover:border-teal-600 hover:shadow;
+  }
+
+  .btn-error {
+    @apply bg-red-800;
+    @apply border-red-800;
+    @apply text-white;
+    @apply focus:bg-red-600 focus:border-red-600 focus:shadow;
+    @apply hover:bg-red-600 hover:border-red-600 hover:shadow;
+  }
+
+  .input {
+    @apply px-2 py-0.5;
+    @apply rounded;
+    @apply border border-gray-200;
+    @apply bg-gray-100;
+    @apply transition duration-200 ease-in-out;
+    @apply focus:outline-none;
+    @apply disabled:cursor-not-allowed disabled:text-muted;
+    @apply disabled:focus:border-gray-200 disabled:focus:shadow-none;
+    @apply disabled:hover:border-gray-200 disabled:hover:shadow-none;
+    @apply focus:border-teal-700 focus:shadow;
+    @apply hover:border-teal-700 hover:shadow;
+  }
+}
