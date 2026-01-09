@@ -22,14 +22,23 @@ It supports:
 
 Hardware:
 
-- ESP32 (i'm using ESP32-WROOM-32)
+- ESP32 DevKitC (i'm using ESP32-WROOM-32)
 - 433MHz receiver (MX-RM-5V module)
-- 433MHz emitter (FS1000A module) - [Optional] *only if you want to emit signals*
+- 433MHz emitter (FS1000A module)
+- RGB Led (common cathode)
+- 330 Ohms resistor
+- 2x 220 Ohms resistor
+- 10k Ohms resistor
+- 20k Ohms resistor
+- wires
+
+> ❗ **Important**: you will have to solder some parts
 
 Software:
 
 - Arduino IDE
-- PuTTY
+- PuTTY [Optional]
+- VSCode [Optional]
 
 ## Hardware
 
@@ -60,9 +69,10 @@ First, you need to install the **ESP32 board** in the IDE:
 - then, open the Boards Manager by going to **Tools** > **Board** > **Boards Manager**
 - search for `esp32` and press install button for the **"esp32 by Espressif Systems"**
 
-Then, you need to install the [RCSwitch](https://github.com/sui77/rc-switch) and [NewRemoteSwitch](https://github.com/1technophile/NewRemoteSwitch) libraries:
+Then, you need to install the [JLed](https://github.com/jandelgado/jled), [RCSwitch](https://github.com/sui77/rc-switch) and [NewRemoteSwitch](https://github.com/1technophile/NewRemoteSwitch) libraries:
 
 - go to **Tools** > **Manage libraries**
+- search for `JLed` and press install button for the **"JLed by Jan Delgado"**
 - search for `rc-switch` and press install button for the **"rc-switch by sui77"**
 - as the **NewRemoteSwitch** library requires manual installation, you can either:
   - include the library from `.zip` archive by following the [Arduino documentation instructions](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries/#importing-a-zip-library)
@@ -125,5 +135,6 @@ Made with ❤ by [Hervé Perchec](https://github.com/hperchec)
 
 Thanks to:
 
+- [Jan Delgado](https://github.com/jandelgado) for the [JLed](https://github.com/jandelgado/jled) library (v4.15.0)
 - [Suat Özgür](https://github.com/sui77) for the [RCSwitch](https://github.com/sui77/rc-switch) library (v2.6.4)
 - [Florian Robert](https://github.com/1technophile) & [Randy Simons](http://randysimons.nl/) for the [NewRemoteSwitch](https://github.com/1technophile/NewRemoteSwitch) library (v1.2.0)

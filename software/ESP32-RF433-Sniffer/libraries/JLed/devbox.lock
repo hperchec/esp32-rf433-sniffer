@@ -1,0 +1,150 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "cpplint@2.0.0": {
+      "last_modified": "2024-11-03T14:18:04Z",
+      "resolved": "github:NixOS/nixpkgs/4ae2e647537bcdbb82265469442713d066675275#cpplint",
+      "source": "devbox-search",
+      "version": "2.0.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/70gc21bl3grda63djlks6x1f5g8h89xk-cpplint-2.0.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/3sq5396dcbg3r06g9zci1w4rxql1xf0k-cpplint-2.0.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/70gc21bl3grda63djlks6x1f5g8h89xk-cpplint-2.0.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3fcbszvn75zwim2n3785bflrwww38l42-cpplint-2.0.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/fqrmkx6q4q290hildy4l6gi2pzwzwinw-cpplint-2.0.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/3fcbszvn75zwim2n3785bflrwww38l42-cpplint-2.0.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/m675bxwgh3wmr0gix5g6xnhkidlql0ii-cpplint-2.0.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/2bpdwa3r1kfzf4jkd4i24njxy3pr3xnv-cpplint-2.0.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/m675bxwgh3wmr0gix5g6xnhkidlql0ii-cpplint-2.0.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/vrv52827v0b6h4k3nl7k9zg4ld182khg-cpplint-2.0.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/132q2dd3wkkgdpybwzhybm7hbad0g097-cpplint-2.0.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/vrv52827v0b6h4k3nl7k9zg4ld182khg-cpplint-2.0.0"
+        }
+      }
+    },
+    "lcov@1.16": {
+      "last_modified": "2024-03-22T11:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#lcov",
+      "source": "devbox-search",
+      "version": "1.16",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/cwjgl90nkg79za5gx41yg4663w7iyj0y-lcov-1.16"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/81axjrgg3cjx09kdb25psiiyz60zacqw-lcov-1.16"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/5jir4n0q72z9p2h9sxwb2rcam3j165wp-lcov-1.16"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/qfdwnjp77xlvg0jqfv1dl8b40xpv230k-lcov-1.16"
+        }
+      }
+    },
+    "pipx": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#pipx",
+      "source": "nixpkg"
+    },
+    "python@3.13": {
+      "last_modified": "2024-11-28T07:51:56Z",
+      "plugin_version": "0.0.4",
+      "resolved": "github:NixOS/nixpkgs/226216574ada4c3ecefcbbec41f39ce4655f78ef#python313",
+      "source": "devbox-search",
+      "version": "3.13.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fbyrkq5n04a9hn5zs26vrmqjzdx73d4g-python3-3.13.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/fbyrkq5n04a9hn5zs26vrmqjzdx73d4g-python3-3.13.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jbz9fj3sp5c8bf0s6d0bkjjj9mslxsrc-python3-3.13.0",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/60jgy93wj50wwimmhm2p53pzaiap8ypm-python3-3.13.0-debug"
+            }
+          ],
+          "store_path": "/nix/store/jbz9fj3sp5c8bf0s6d0bkjjj9mslxsrc-python3-3.13.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/c7j1vxcdcqswsddm5m1n2n4z5zfhmbq2-python3-3.13.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/c7j1vxcdcqswsddm5m1n2n4z5zfhmbq2-python3-3.13.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0b83hlniyfbpha92k2j0w93mxdalv8kb-python3-3.13.0",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/xzhxhqs8my0yvfi09aj1s9i1s9nrmpvg-python3-3.13.0-debug"
+            }
+          ],
+          "store_path": "/nix/store/0b83hlniyfbpha92k2j0w93mxdalv8kb-python3-3.13.0"
+        }
+      }
+    }
+  }
+}
